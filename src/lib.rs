@@ -18,12 +18,18 @@ mod tests {
 
     #[test]
     fn readme() {
-        let worker_id = 0;
-        let process_id = 0;
+        let worker_id = 1;
+        let process_id = 2;
         let mut worker = SnowflakeWorker::new(worker_id, process_id);
-        println!("{}", &worker.make());
+        let snowflake = Snowflake::from(worker.make());
+        println!("Creted snowflake {}", snowflake.flake);
+        println!("Snowflake created at: {}", snowflake.timestamp);
+        println!("Snowflake created by worker {}", snowflake.worker_id);
+        println!("Snowflake created by process {}", snowflake.process_id);
+        println!("Snowflakes increment is {}", snowflake.increment);
     }
 
+    #[test]
     fn discord_doc() {
         let snowflake = Snowflake::from(175928847299117063);
         assert_eq!(snowflake.timestamp, 1462015105796);
@@ -67,7 +73,9 @@ pub struct Snowflake {
     /// Process that created this Snowflake, internal
     pub process_id: u64,
     /// Increment of this Snowflake, internal
-    pub increment: u64
+    pub increment: u64,
+    /// Raw snowflake
+    pub flake: u64
 }
 
 impl Snowflake {
@@ -76,7 +84,8 @@ impl Snowflake {
             timestamp: (snowflake >> 22) + 1420070400000,
             worker_id: (snowflake & 0x3E0000) >> 17,
             process_id: (snowflake & 0x1F000) >> 12,
-            increment: snowflake & 0xFFF
+            increment: snowflake & 0xFFF,
+            flake: snowflake
         }
     }
 }

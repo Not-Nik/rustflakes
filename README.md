@@ -6,10 +6,15 @@ An implementation of Discords version of Twitter snowflakes in Rust.
 use rustflakes::SnowflakeWorker;
 
 fn main() {
-    let worker_id = 0;
-    let process_id = 0;
+    let worker_id = 1;
+    let process_id = 2;
     let mut worker = SnowflakeWorker::new(worker_id, process_id);
-    println!("{}", &worker.make());
+    let snowflake = Snowflake::from(worker.make());
+    println!("Creted snowflake {}", snowflake.flake);
+    println!("Snowflake created at: {}", snowflake.timestamp);
+    println!("Snowflake created by worker {}", snowflake.worker_id);
+    println!("Snowflake created by process {}", snowflake.process_id);
+    println!("Snowflakes increment is {}", snowflake.increment);
 }
 ```
 ## Structure
