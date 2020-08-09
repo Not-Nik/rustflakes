@@ -10,7 +10,7 @@ fn main() {
     let process_id = 2;
     let mut worker = SnowflakeWorker::new(worker_id, process_id);
     let snowflake = Snowflake::from(worker.make());
-    println!("Creted snowflake {}", snowflake.flake);
+    println!("Created snowflake {}", snowflake.flake);
     println!("Snowflake created at: {}", snowflake.timestamp);
     println!("Snowflake created by worker {}", snowflake.worker_id);
     println!("Snowflake created by process {}", snowflake.process_id);
