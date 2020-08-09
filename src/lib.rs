@@ -61,7 +61,7 @@ impl SnowflakeWorker
 
     pub fn make(&mut self) -> u64 {
         self.increment += 1;
-        SnowflakeWorker::get_timestamp() << 22 | self.worker_id << 17 | self.process_id << 12 | (self.increment - 1)
+        SnowflakeWorker::get_timestamp() << 22 | (self.worker_id & 31) << 17 | (self.process_id & 31) << 12 | ((self.increment - 1) & 0xFFF)
     }
 }
 
