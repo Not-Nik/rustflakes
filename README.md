@@ -1,5 +1,5 @@
 # rustflakes
-An implementation of Discords version of Twitter snowflakes in Rust.
+An implementation of Discord's version of Twitter's snowflakes in Rust.
 
 ## Usage
 ```rust
