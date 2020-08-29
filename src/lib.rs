@@ -39,24 +39,19 @@ mod tests {
     }
 }
 
-pub struct SnowflakeWorker
-{
+pub struct SnowflakeWorker {
     worker_id: u64,
     process_id: u64,
-    increment: u64
+    increment: u64,
 }
 
-impl SnowflakeWorker
-{
-    pub fn new(worker_id: u64, process_id: u64) -> SnowflakeWorker
-    {
+impl SnowflakeWorker {
+    pub fn new(worker_id: u64, process_id: u64) -> SnowflakeWorker {
         SnowflakeWorker { worker_id, process_id, increment: 0 }
     }
 
     fn get_timestamp() -> u64 {
-        SystemTime::now().duration_since(UNIX_EPOCH)
-            .expect("")
-            .as_millis() as u64 - 1420070400000
+        SystemTime::now().duration_since(UNIX_EPOCH).expect("").as_millis() as u64 - 1420070400000
     }
 
     pub fn make(&mut self) -> u64 {
@@ -75,7 +70,7 @@ pub struct Snowflake {
     /// Increment of this Snowflake, internal
     pub increment: u64,
     /// Raw snowflake
-    pub flake: u64
+    pub flake: u64,
 }
 
 impl Snowflake {
@@ -85,7 +80,7 @@ impl Snowflake {
             worker_id: (snowflake & 0x3E0000) >> 17,
             process_id: (snowflake & 0x1F000) >> 12,
             increment: snowflake & 0xFFF,
-            flake: snowflake
+            flake: snowflake,
         }
     }
 }
