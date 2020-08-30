@@ -2,7 +2,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 #[cfg(test)]
 mod tests {
-    use crate::{SnowflakeWorker, Snowflake};
+    use crate::{Snowflake, SnowflakeWorker};
 
     #[test]
     fn test() {
@@ -47,16 +47,27 @@ pub struct SnowflakeWorker {
 
 impl SnowflakeWorker {
     pub fn new(worker_id: u64, process_id: u64) -> SnowflakeWorker {
-        SnowflakeWorker { worker_id, process_id, increment: 0 }
+        SnowflakeWorker {
+            worker_id,
+            process_id,
+            increment: 0,
+        }
     }
 
     fn get_timestamp() -> u64 {
-        SystemTime::now().duration_since(UNIX_EPOCH).expect("").as_millis() as u64 - 1420070400000
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("")
+            .as_millis() as u64
+            - 1420070400000
     }
 
     pub fn make(&mut self) -> u64 {
         self.increment += 1;
-        SnowflakeWorker::get_timestamp() << 22 | (self.worker_id & 31) << 17 | (self.process_id & 31) << 12 | ((self.increment - 1) & 0xFFF)
+        SnowflakeWorker::get_timestamp() << 22
+            | (self.worker_id & 31) << 17
+            | (self.process_id & 31) << 12
+            | ((self.increment - 1) & 0xFFF)
     }
 }
 
